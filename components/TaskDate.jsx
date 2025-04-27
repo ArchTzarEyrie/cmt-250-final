@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 
-const TaskDate = ({ dueDate, useTime }) => {
+const TaskDate = ({ dueDate }) => {
     const monthMap = {
         0: 'Jan',
         1: 'Feb',

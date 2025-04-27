@@ -1,9 +1,8 @@
 import { Text, View, StyleSheet } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useState } from 'react';
-import TaskDate from './TaskDate';
 
-const Task = ({text, isComplete, dueDate, useTime}) => {
+const Task = ({text, isComplete }) => {
 
     const [completeState, setCompleteState] = useState(isComplete);
 
@@ -17,15 +16,7 @@ const Task = ({text, isComplete, dueDate, useTime}) => {
                         onPress={() => setCompleteState(!completeState)}
                         color="#007BFF"
                     />
-                    <View style={styles.radioText}>
-                        <Text>{text}</Text>
-                        <TaskDate 
-                            style={styles.dateLabel} 
-                            dueDate={dueDate}
-                            useTime={useTime}
-                        />
-                    </View>
-                    
+                    <Text>{text}</Text>
                 </View>
             </View>
         </View>
@@ -41,7 +32,6 @@ const styles = StyleSheet.create({
     },
     radioGroup: {
         flexDirection: 'row',
-        marginTop: 20,
         borderRadius: 8,
         backgroundColor: 'white',
         padding: 16,
@@ -58,15 +48,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    radioText: {
-        flexDirection: 'column'
-    },
     radioLabel: {
         marginLeft: 8,
         fontSize: 16,
         color: '#333',
     },
-    dateLabel: {
-        fontSize: 8
-    }
 });
