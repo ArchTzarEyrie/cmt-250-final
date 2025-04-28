@@ -54,8 +54,10 @@ const Upcoming = () => {
     });
 
     return (
-        <View style={showCreateTaskModal ?  styles.containerWithModal : styles.container} >
-            <Text>Upcoming</Text>
+        <View style={showCreateTaskModal ?  styles.containerWithModal : styles.container}>
+            <View style={styles.headerContainer}>
+                <Text>Upcoming</Text>
+            </View>
             {dayContainers}
             <Modal
                 animationType='slide'
@@ -111,4 +113,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
     },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 10
+    }
   });
