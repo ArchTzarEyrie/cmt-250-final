@@ -17,7 +17,7 @@ const TaskDate = ({ dueDate }) => {
     }
 
     return (
-        <Text>{`${monthMap[dueDate.getMonth()]} ${dueDate.getDate()}`}</Text>
+        <Text>{`${monthMap[dueDate[0]]} ${dueDate[1]}`}</Text>
     )
 }
 
