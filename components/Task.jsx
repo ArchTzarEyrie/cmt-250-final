@@ -2,7 +2,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useState } from 'react';
 
-const Task = ({text, isComplete }) => {
+const Task = ({text, isComplete, id, dueDate}) => {
 
     const [completeState, setCompleteState] = useState(isComplete);
 
@@ -13,7 +13,22 @@ const Task = ({text, isComplete }) => {
                     <RadioButton
                         value="isComplete"
                         status={completeState ? 'checked' : 'unchecked'}
-                        onPress={() => setCompleteState(!completeState)}
+                        onPress={() => {
+                            setCompleteState(!completeState);
+                            fetch(`http://localhost:3000/tasks/update/${id}`, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    text,
+                                    isComplete: !isComplete,
+                                    id,
+                                    dueDate
+                                }),
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                        }}
                         color="#007BFF"
                     />
                     <Text>{text}</Text>
