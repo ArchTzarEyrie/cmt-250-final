@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useState } from 'react';
 
-const Task = ({text, isComplete, id, dueDate}) => {
+const Task = ({ text, isComplete, id, dueDate, fetchTasks }) => {
 
     const [completeState, setCompleteState] = useState(isComplete);
 
@@ -33,6 +33,21 @@ const Task = ({text, isComplete, id, dueDate}) => {
                     />
                     <Text>{text}</Text>
                 </View>
+                <View>
+                    <Button
+                        title="X"
+                        onPress={() => {
+                            fetch(`http://localhost:3000/tasks/delete/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(() => fetchTasks());
+                        }}
+                    />
+                </View>
             </View>
         </View>
     );
@@ -58,6 +73,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+        justifyContent: 'space-between'
     },
     radioButton: {
         flexDirection: 'row',

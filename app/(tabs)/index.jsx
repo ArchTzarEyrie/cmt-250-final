@@ -11,7 +11,7 @@ const Upcoming = () => {
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
     registerTranslation('en', en);
 
-    useEffect(() => {
+    const fetchTasks = () => {
         fetch('http://localhost:3000/tasks')
             .then(response => {
                 response.json().then(json => {
@@ -23,6 +23,10 @@ const Upcoming = () => {
                     }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()));
                 });
             });
+    }
+
+    useEffect(() => {
+        fetchTasks();
     }, []);
 
     const isSameDate = (tuple, date) => {
@@ -36,11 +40,17 @@ const Upcoming = () => {
             uniqueDates.push(tuple);
         }
     });
-    console.log(uniqueDates);
     const dayContainers = [];
 
     uniqueDates.forEach(date => {
-        dayContainers.push(<DayContainer tasks={tasks.filter(task => isSameDate(date, task.dueDate))} date={date} key={date}/>);
+        dayContainers.push(
+            <DayContainer 
+                tasks={tasks.filter(task => isSameDate(date, task.dueDate))}
+                date={date}
+                key={date}
+                fetchTasks={fetchTasks}
+            />
+        );
     });
 
     return (
@@ -58,6 +68,7 @@ const Upcoming = () => {
                 <CreateTaskModal 
                     showCreateTaskModal={showCreateTaskModal}
                     setShowCreateTaskModal={setShowCreateTaskModal}
+                    fetchTasks={fetchTasks}
                 />
             </Modal>
             

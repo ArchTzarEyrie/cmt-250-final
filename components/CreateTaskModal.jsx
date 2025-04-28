@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
 
-const CreateTaskModal = ({ setShowCreateTaskModal }) => {
+const CreateTaskModal = ({ setShowCreateTaskModal, fetchTasks }) => {
 
     const [inputValue, setInputValue] = useState('');
     const [dueDate, setDueDate] = useState(new Date());
@@ -49,7 +49,7 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                 <View style={styles.buttonRow} >
                     <View style={styles.buttonText}>
                         <Button
-                            title={<TaskDate dueDate={dueDate} />}
+                            title={<TaskDate dueDate={[dueDate.getMonth(), dueDate.getDate()]} />}
                             onPress={() => setModalVisible(true)}
                         />
                     </View>
@@ -60,6 +60,7 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                             onPress={() => {
                                 createTask();
                                 setShowCreateTaskModal(false);
+                                fetchTasks();
                             }}
                         />
                     </View>
