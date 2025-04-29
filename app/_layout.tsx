@@ -54,6 +54,7 @@ export default function RootLayout() {
       <TasksContext.Provider value={tasks}>
         <SetTasksContext.Provider value={(tasks) => {
           const newTasks = new Array(...tasks);
+          newTasks.sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime());
           setTasks(newTasks);
         }}>
           <Stack>
