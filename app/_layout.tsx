@@ -26,36 +26,34 @@ export default function RootLayout() {
     return null;
   }
 
-  const [tasks, setTasks] = useState([]);
-  const [isDirty, setIsDirty] = useState(true);
+  const [tasks, setTasks] = useState<any[]>([]);
 
     const fetchTasks = () => {
         fetch('http://localhost:3000/tasks')
             .then(response => {
                 response.json().then(json => {
-                    const tasksToSet = json.tasks.map(task => {
+                    const tasksToSet = json.tasks.map((task: any) => {
                       return {
                           ...task,
                           dueDate: new Date(task.dueDate)
                       }
-                  }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
-                    console.log(tasksToSet);
+                  }).sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime());
                     setTasks(tasksToSet);
-                    setIsDirty(false);
                 });
             });
     }
 
     useEffect(() => {
-      if (isDirty) {
-        fetchTasks();
-      }
-    }, [isDirty]);
+      fetchTasks();
+    }, []);
 
   return (
     <ThemeProvider value={DefaultTheme}>
       <TaskContext.Provider value={tasks}>
-        <DirtyContext.Provider value={() => setIsDirty(true)}>
+        <DirtyContext.Provider value={(tasks) => {
+          const newTasks = new Array(...tasks);
+          setTasks(newTasks);
+        }}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />

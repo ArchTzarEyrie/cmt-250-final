@@ -3,10 +3,12 @@ import { useState, useContext } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
 import { DirtyContext } from '@/data/DirtyContext';
+import { TaskContext } from '@/data/TaskContext';
 
 const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     
-    const setToDirty = useContext(DirtyContext);
+    const setTasks = useContext(DirtyContext);
+    const tasks = useContext(TaskContext);
     const [inputValue, setInputValue] = useState('');
     const [dueDate, setDueDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
@@ -23,6 +25,16 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
             }
+        }).then(response => {
+            console.log(response);
+            response.json().then(json => {
+                console.log(json);
+                tasks.push({
+                    ...json,
+                    dueDate: new Date(json.dueDate)
+                });
+                setTasks(tasks);
+            })
         });
     }
 
@@ -62,7 +74,6 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                             onPress={() => {
                                 createTask();
                                 setShowCreateTaskModal(false);
-                                setToDirty();
                             }}
                         />
                     </View>
