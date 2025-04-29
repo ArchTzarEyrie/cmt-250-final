@@ -1,3 +1,11 @@
+/**
+ * TASK X
+ * 
+ * implement and export a component Today that:
+ *  - renders a Task component for each Task in the global list of 'tasks'
+ *    with the same month and date at the current date when the tab is opened
+ */
+
 import { Text, View, StyleSheet } from 'react-native';
 import Task from '@/components/Task';
 import { useContext } from 'react';

@@ -1,10 +1,21 @@
-import { Text, View, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+/**
+ * TASK X
+ * 
+ * implement and export a component Upcoming that:
+ *  - groups all global 'tasks' into groups based on the month and date of their due date
+ *      - the util function isSameDate in @/util/utils can help with this
+ *  - render a DayContainer for each unique month/date pair, and pass to it all tasks with that
+ *    month/date pair
+ *  - render and manage a Modal from 'react-native' with only the component CreateTaskModal as a child
+ *  - render a CreateTaskButton component from @/util/utils that shows the modal when clicked
+ */
+
+import { Text, View, StyleSheet, Modal } from 'react-native';
 import DayContainer from '@/components/DayContainer';
 import { useState, useContext } from 'react';
-import { Icon } from 'react-native-paper';
 import CreateTaskModal from '@/components/CreateTaskModal';
 import { TasksContext } from '@/data/TasksContext';
-import { isSameDate } from '@/util/utils';
+import { isSameDate, CreateTaskButton } from '@/util/utils';
 
 const Upcoming = () => {
 
@@ -48,13 +59,7 @@ const Upcoming = () => {
                     setShowCreateTaskModal={setShowCreateTaskModal}
                 />
             </Modal>
-            
-            <TouchableOpacity 
-                style={styles.floatingButton}
-                onPress={() => setShowCreateTaskModal(true)}
-            >
-                <Icon source={"plus"} />
-            </TouchableOpacity>
+            <CreateTaskButton onPress={() => setShowCreateTaskModal(true)} />
         </View>
         
     )
@@ -71,22 +76,6 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'column',
       opacity: 0.25
-    },
-    floatingButton: {
-      backgroundColor: "#FFFFFF",
-      width: 30,
-      height: 30,
-      borderRadius: 30,
-      justifyContent: "center",
-      alignItems: "center",
-      position: "absolute",
-      bottom: 10,
-      right: 10,
-      elevation: 5, // For Android shadow
-      shadowColor: "#000", // For iOS shadow
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
     },
     headerContainer: {
         flexDirection: 'row',

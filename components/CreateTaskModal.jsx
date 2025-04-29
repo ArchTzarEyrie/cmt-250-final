@@ -4,30 +4,54 @@
  * props:
  *  - setShowCreateTaskModal: func (boolean) => none, set a boolean as to whether this modal should be shown
  * 
+ * This file is more complex than the others and uses components
+ * from third party libraries. As such, I've left the more complex
+ * parts of the infrastructure implemented, and labeled sub tasks that
+ * allow you to still implement the majority of the functionality without 
+ * having to contend with new content or styling
+ * 
  * implement the sub tasks in the file
+ *  - you can ctrl+f for "SUB-TASK" to make sure you find them
  */
 
-import { View, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useState, useContext } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
 import { SetTasksContext } from '@/data/SetTasksContext';
 import { TasksContext } from '@/data/TasksContext';
-import { Icon } from 'react-native-paper';
-import { getNewTaskId, headers  } from '@/util/utils';
+import { getNewTaskId, headers, CloseCreateTaskModalButton } from '@/util/utils';
 
 const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     
+    /**
+     * INFO
+     * 
+     * I've declared the variables and state you'll need in this component
+     * you shouldn't need to change these
+     */
+
+    // get the function to set tasks in state
     const setTasks = useContext(SetTasksContext);
+
+    // get the current list of tasks
     const tasks = useContext(TasksContext);
+
+    // track the input value of the text input below
+    // which is the text of the Task being created
     const [inputValue, setInputValue] = useState('');
+
+    // track the due date of the Task being created
     const [dueDate, setDueDate] = useState(new Date());
-    const [modalVisible, setModalVisible] = useState(false);
+
+    // track whether the date picker modal should be visible
+    const [datePickerModalVisible, setDatePickerModalVisible] = useState(false);
 
     // SUB-TASK: 
     // implement this function send a POST message to the server
     // to create a new Task based on the values in this component's state
-    // and then 'finally' update 'tasks' with the new value and calls 'setTasks'
+    // and an id received from calling the util 'getNewTaskId'
+    // and then 'finally' update 'tasks' with the new value and call 'setTasks'
     const createTask = () => {
         const id = getNewTaskId(tasks);
         const newTask = {
@@ -49,42 +73,59 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <TouchableOpacity 
-                    style={styles.closeButton}
+                {/* This is the 'X' button in the top right corner of the modal */}
+                <CloseCreateTaskModalButton 
                     onPress={() => setShowCreateTaskModal(false)}
-                >
-                    <Icon source={"close"} size={20}/>
-                </TouchableOpacity>
+                />
+                {/* This is a text input where the user enters text of a Task */}
                 <TextInput
                     style={styles.textInput}
                     editable
-                    onChangeText={setInputValue}
-                    value={inputValue}
                     placeholder={"Task Name"}
                     placeholderTextColor={'grey'}
+                    // SUB-TASK
+                    // implement the onChangeText and value props of this TextInput
+                    onChangeText={setInputValue}
+                    value={inputValue}
                 />
                 <DatePickerModal
                     mode="single"
-                    visible={modalVisible}
-                    onDismiss={() => setModalVisible(false)}
+                    // SUB-TASK
+                    // implement the remaining props of this component
+                    // the picker should only be visible after the Date button below is clicked
+                    visible={datePickerModalVisible}
+                    // pass a function that hides the date picker modal
+                    onDismiss={() => setDatePickerModalVisible(false)}
+                    // the Date value that the date picker should have when it opens
                     date={dueDate}
+                    // this should set the new date value in state and close the date picker modal
                     onConfirm={(params) => {
                         // params: { date: Date }
                         setDueDate(params.date);
-                        setModalVisible(false);
+                        setDatePickerModalVisible(false);
                     }}
                 />
                 <View style={styles.buttonRow} >
                     <View style={styles.buttonText}>
+                        {/* This button shows the currently selected date, clicking it opens the date picker */}
                         <Button
+                            // SUB-TASK
+                            // implement the remaining props of this component
+                            // Hint: you can pass a component like TaskDate to title
                             title={<TaskDate dueDate={dueDate} />}
-                            onPress={() => setModalVisible(true)}
+                            // Pushing this button should reveal the date picker
+                            onPress={() => setDatePickerModalVisible(true)}
                         />
                     </View>
                     <View style={styles.buttonText}>
+                        {/* This is the confirm button that creates the Task when clicked */}
                         <Button
-                            disabled={inputValue === ''}
                             title={"Confirm"}
+                            // SUB-TASK
+                            // implement the remaining props of this component
+                            // this button should be disabled if the text input has no input
+                            disabled={inputValue === ''}
+                            // pass a function that creates the Task and then closes the modal
                             onPress={() => {
                                 createTask();
                                 setShowCreateTaskModal(false);
@@ -130,10 +171,5 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         margin: 5
-    },
-    closeButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10
     }
   });
