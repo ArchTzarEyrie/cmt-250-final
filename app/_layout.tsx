@@ -5,8 +5,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
-import { TaskContext } from '@/data/TaskContext';
-import { DirtyContext } from '@/data/DirtyContext';
+import { TasksContext } from '@/data/TasksContext';
+import { SetTasksContext } from '@/data/SetTasksContext';
+import { en, registerTranslation } from 'react-native-paper-dates';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -27,6 +28,7 @@ export default function RootLayout() {
   }
 
   const [tasks, setTasks] = useState<any[]>([]);
+  registerTranslation('en', en);
 
     const fetchTasks = () => {
         fetch('http://localhost:3000/tasks')
@@ -49,8 +51,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <TaskContext.Provider value={tasks}>
-        <DirtyContext.Provider value={(tasks) => {
+      <TasksContext.Provider value={tasks}>
+        <SetTasksContext.Provider value={(tasks) => {
           const newTasks = new Array(...tasks);
           setTasks(newTasks);
         }}>
@@ -58,8 +60,8 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
-        </DirtyContext.Provider>
-      </TaskContext.Provider>
+        </SetTasksContext.Provider>
+      </TasksContext.Provider>
       <StatusBar style="auto" />
     </ThemeProvider>
   );

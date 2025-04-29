@@ -1,27 +1,23 @@
 import { Text, View, StyleSheet } from 'react-native';
-import DayContainer from '@/components/DayContainer';
+import Task from '@/components/Task';
 import { useContext } from 'react';
-import { TaskContext } from '@/data/TaskContext';
+import { TasksContext } from '@/data/TasksContext';
+import { isSameDate } from '@/util/utils';
 
 const Today = () => {
-    const tasks = useContext(TaskContext);
 
+    const tasks = useContext(TasksContext);
     const today = new Date();
-    const todayTuple = [today.getMonth(), today.getDate()];
-
-    const isSameDate = (tuple, date) => {
-        return tuple[0] === date.getMonth() && tuple[1] === date.getDate();
-    };
 
     return (
         <View>
             <View style={styles.headerContainer}>
                 <Text>Today</Text>
             </View>
-            <DayContainer 
-                tasks={tasks.filter(task => isSameDate(todayTuple, task.dueDate))}
-                date={todayTuple}
-            />
+            {
+                tasks.filter(task => isSameDate(today, task.dueDate))
+                    .map(task => <Task key={task.id} {...task} />)
+            }
         </View>
         
     )

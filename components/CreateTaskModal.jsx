@@ -1,14 +1,15 @@
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState, useContext } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
-import { DirtyContext } from '@/data/DirtyContext';
-import { TaskContext } from '@/data/TaskContext';
+import { SetTasksContext } from '@/data/SetTasksContext';
+import { TasksContext } from '@/data/TasksContext';
+import { Icon } from 'react-native-paper';
 
 const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     
-    const setTasks = useContext(DirtyContext);
-    const tasks = useContext(TaskContext);
+    const setTasks = useContext(SetTasksContext);
+    const tasks = useContext(TasksContext);
     const [inputValue, setInputValue] = useState('');
     const [dueDate, setDueDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
@@ -39,6 +40,12 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
+                <TouchableOpacity 
+                    style={styles.closeButton}
+                    onPress={() => setShowCreateTaskModal(false)}
+                >
+                    <Icon source={"close"} size={20}/>
+                </TouchableOpacity>
                 <TextInput
                     style={styles.textInput}
                     editable
@@ -114,5 +121,10 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         margin: 5
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10
     }
   });

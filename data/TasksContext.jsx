@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export const TaskContext = createContext([
+export const TasksContext = createContext([
     {
         id: 0,
         text: 'Default Task from Context',

@@ -1,3 +1,17 @@
+/**
+ * TASK X
+ * 
+ * props:
+ *  - tasks: Task[], an array of Task objects
+ *  - date: a date tuple, [month: int, date: int]
+ * 
+ * implement and export a component DayContainer that:
+ *  - returns a View containing all child components
+ *  - the child components should have:
+ *      - a TaskDate component
+ *      - a list of Task components, one for each entry in the 'tasks' prop
+ */
+
 import { View, StyleSheet } from 'react-native';
 import Task from './Task';
 import TaskDate from './TaskDate';

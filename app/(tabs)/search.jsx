@@ -1,10 +1,10 @@
 import { Text, View, TextInput, StyleSheet } from 'react-native';
 import { useState, useContext } from 'react';
 import Task from '@/components/Task';
-import { TaskContext } from '@/data/TaskContext';
+import { TasksContext } from '@/data/TasksContext';
 
 const Search = () => {
-    const tasks = useContext(TaskContext);
+    const tasks = useContext(TasksContext);
     const [searchTerm, setSearchTerm] = useState('');
 
     const searchResults = tasks.filter(task => {

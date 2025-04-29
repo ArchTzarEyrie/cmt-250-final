@@ -1,14 +1,30 @@
+/**
+ * TASK X
+ * 
+ * props:
+ *  - text: String, the text to render for the Task
+ *  - isComplete: Boolean, determines if the radio button should be checked off
+ *  - id: int, id used by the database to indicate this task
+ *  - dueDate: Date, date the Task is scheduled for
+ *  - showDate: Boolean, determines if the due date should be displayed on the Task, defaults to false
+ * 
+ * create and export a component Task that:
+ *  - displays a radio button that indicates if the task is complete
+ *      - when the radio button is pressed, update the isComplete value for this task in memory and in the server
+ *  - displays the passed text component
+ */
+
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useContext } from 'react';
 import TaskDate from './TaskDate';
-import { DirtyContext } from '@/data/DirtyContext';
-import { TaskContext } from '@/data/TaskContext';
+import { SetTasksContext } from '@/data/SetTasksContext';
+import { TasksContext } from '@/data/TasksContext';
 
 const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
-    const setTasks = useContext(DirtyContext);
-    const tasks = useContext(TaskContext);
+    const setTasks = useContext(SetTasksContext);
+    const tasks = useContext(TasksContext);
 
     return (
         <View style={styles.container}>

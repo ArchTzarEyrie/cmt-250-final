@@ -3,14 +3,13 @@ import DayContainer from '@/components/DayContainer';
 import { useState, useContext } from 'react';
 import { Icon } from 'react-native-paper';
 import CreateTaskModal from '@/components/CreateTaskModal';
-import { en, registerTranslation } from 'react-native-paper-dates';
-import { TaskContext } from '@/data/TaskContext';
+import { TasksContext } from '@/data/TasksContext';
 
 const Upcoming = () => {
 
-    const tasks = useContext(TaskContext);
+    const tasks = useContext(TasksContext);
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-    registerTranslation('en', en);
+    
 
     const isSameDate = (tuple, date) => {
         return tuple[0] === date.getMonth() && tuple[1] === date.getDate();
