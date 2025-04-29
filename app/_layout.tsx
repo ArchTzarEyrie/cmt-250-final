@@ -33,12 +33,14 @@ export default function RootLayout() {
         fetch('http://localhost:3000/tasks')
             .then(response => {
                 response.json().then(json => {
-                    setTasks(json.tasks.map(task => {
-                        return {
-                            ...task,
-                            dueDate: new Date(task.dueDate)
-                        }
-                    }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()));
+                    const tasksToSet = json.tasks.map(task => {
+                      return {
+                          ...task,
+                          dueDate: new Date(task.dueDate)
+                      }
+                  }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+                    console.log(tasksToSet);
+                    setTasks(tasksToSet);
                     setIsDirty(false);
                 });
             });

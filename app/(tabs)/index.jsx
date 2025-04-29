@@ -9,7 +9,6 @@ import { TaskContext } from '@/data/TaskContext';
 const Upcoming = () => {
 
     const tasks = useContext(TaskContext);
-    console.log(tasks);
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
     registerTranslation('en', en);
 

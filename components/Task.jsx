@@ -1,12 +1,11 @@
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import TaskDate from './TaskDate';
 import { DirtyContext } from '@/data/DirtyContext';
 
 const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
-    const [completeState, setCompleteState] = useState(isComplete);
     const setToDirty = useContext(DirtyContext);
 
     return (
@@ -15,9 +14,8 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                 <View style={styles.radioButton}>
                     <RadioButton
                         value="isComplete"
-                        status={completeState ? 'checked' : 'unchecked'}
+                        status={isComplete ? 'checked' : 'unchecked'}
                         onPress={() => {
-                            setCompleteState(!completeState);
                             fetch(`http://localhost:3000/tasks/update/${id}`, {
                                 method: 'POST',
                                 body: JSON.stringify({
@@ -30,7 +28,7 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                                     'Access-Control-Allow-Origin': '*',
                                     'Content-Type': 'application/json'
                                 }
-                            });
+                            }).then(() => setToDirty());
                         }}
                         color="#007BFF"
                     />
