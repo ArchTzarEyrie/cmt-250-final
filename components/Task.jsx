@@ -1,5 +1,5 @@
 /**
- * TASK X
+ * TASK 2
  * 
  * props:
  *  - text: String, the text to render for the Task
@@ -14,6 +14,9 @@
  *  - displays the passed text component
  *  - displays the month and date of the Task if showDate is true
  *  - display a button that, when pressed, deletes this task from memory and the server
+ * 
+ * REMINDER: you can get the global list of tasks and setTasks function from 
+ * TasksContext and SetTasksContext respectively
  */
 
 import { Text, View, StyleSheet, Button } from 'react-native';
@@ -26,55 +29,17 @@ import { headers } from '@/util/utils';
 
 const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
-    const setTasks = useContext(SetTasksContext);
-    const tasks = useContext(TasksContext);
-
     return (
         <View style={styles.container}>
             <View style={styles.radioGroup}>
                 <View style={styles.radioButton}>
-                    <RadioButton
-                        value="isComplete"
-                        status={isComplete ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            const updatedTask = {
-                                text,
-                                isComplete: !isComplete,
-                                id,
-                                dueDate
-                            };
-                            fetch(`http://localhost:3000/tasks/update/${id}`, {
-                                method: 'POST',
-                                body: JSON.stringify(updatedTask),
-                                headers
-                            }).finally(() => {
-                                const index = tasks.findIndex(task => task.id === updatedTask.id);
-                                tasks.splice(index, 1, updatedTask);
-                                setTasks(tasks);
-                            });
-                        }}
-                    />
+                    {/* Render the RadioButton here */}
                     <View style={styles.radioTextContainer}>
-                        <Text>{text}</Text>
-                        {showDate && <TaskDate dueDate={dueDate} />}
+                        {/* Render the text of the task and date if showDate is true here */}
                     </View>
-                    
                 </View>
                 <View>
-                    <Button
-                        title="X"
-                        onPress={() => {
-                            fetch(`http://localhost:3000/tasks/delete/${id}`, {
-                                method: 'DELETE',
-                                headers
-                            })
-                            .finally(() => {
-                                const index = tasks.findIndex(task => task.id === id);
-                                tasks.splice(index, 1);
-                                setTasks(tasks);
-                            });
-                        }}
-                    />
+                    {/* Render the delete task button here*/}
                 </View>
             </View>
         </View>

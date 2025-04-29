@@ -1,5 +1,5 @@
 /**
- * TASK X
+ * TASK 7
  * 
  * implement and export a component Upcoming that:
  *  - groups all global 'tasks' into groups based on the month and date of their due date
@@ -7,6 +7,7 @@
  *  - render a DayContainer for each unique month/date pair, and pass to it all tasks with that
  *    month/date pair
  *  - render and manage a Modal from 'react-native' with only the component CreateTaskModal as a child
+ *      - by manage, I mean use state to track a boolean variable that determines if the modal is open or closed
  *  - render a CreateTaskButton component from @/util/utils that shows the modal when clicked
  */
 
@@ -19,54 +20,14 @@ import { isSameDate, CreateTaskButton } from '@/util/utils';
 
 const Upcoming = () => {
 
-    const tasks = useContext(TasksContext);
-    const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-
-    const uniqueDates = [];
-    tasks.forEach(task => {
-        if (uniqueDates.findIndex(date => isSameDate(date, task.dueDate)) < 0) {
-            uniqueDates.push(task.dueDate);
-        }
-    });
-    const dayContainers = [];
-
-    uniqueDates.forEach(date => {
-        dayContainers.push(
-            <DayContainer 
-                tasks={tasks.filter(task => isSameDate(date, task.dueDate))}
-                date={date}
-                key={date}
-            />
-        );
-    });
-
-    return (
-        <View style={showCreateTaskModal ?  styles.containerWithModal : styles.container}>
-            <View style={styles.headerContainer}>
-                <Text>Upcoming</Text>
-            </View>
-            {dayContainers}
-            <Modal
-                animationType='slide'
-                visible={showCreateTaskModal}
-                onRequestClose={() => {
-                    setShowCreateTaskModal(false);
-                }}
-                transparent={true}
-            >
-                <CreateTaskModal 
-                    showCreateTaskModal={showCreateTaskModal}
-                    setShowCreateTaskModal={setShowCreateTaskModal}
-                />
-            </Modal>
-            <CreateTaskButton onPress={() => setShowCreateTaskModal(true)} />
-        </View>
-        
-    )
+    return null;
 }
 
 export default Upcoming;
 
+// styles that I used when creating this file, you may try
+// to use them if you'd like but it's not required
+// you may also replace these with your own if you so choose
 const styles = StyleSheet.create({
     container: {
       flex: 1,

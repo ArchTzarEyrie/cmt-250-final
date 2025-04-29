@@ -1,5 +1,5 @@
 /**
- * TASK X
+ * TASK 5
  * 
  * implement and export a component Today that:
  *  - renders a Task component for each Task in the global list of 'tasks'
@@ -14,25 +14,21 @@ import { isSameDate } from '@/util/utils';
 
 const Today = () => {
 
-    const tasks = useContext(TasksContext);
-    const today = new Date();
-
-    return (
-        <View>
-            <View style={styles.headerContainer}>
-                <Text>Today</Text>
-            </View>
-            {
-                tasks.filter(task => isSameDate(today, task.dueDate))
-                    .map(task => <Task key={task.id} {...task} />)
-            }
-        </View>
-        
-    )
+    return null;
 }
 
 export default Today;
 
+/**
+ * You can add a header to this tab by adding this above your list of tasks:
+ 
+<View style={styles.headerContainer}>
+    <Text>Today</Text>
+</View>
+
+ */
+
+// styles declared for the header if you decide to use it
 const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
