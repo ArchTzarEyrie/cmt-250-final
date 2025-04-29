@@ -1,10 +1,20 @@
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
+/**
+ * TASK X
+ * 
+ * props:
+ *  - setShowCreateTaskModal: func (boolean) => none, set a boolean as to whether this modal should be shown
+ * 
+ * implement the sub tasks in the file
+ */
+
+import { View, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState, useContext } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
 import { SetTasksContext } from '@/data/SetTasksContext';
 import { TasksContext } from '@/data/TasksContext';
 import { Icon } from 'react-native-paper';
+import { getNewTaskId, headers  } from '@/util/utils';
 
 const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     
@@ -14,26 +24,25 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
     const [dueDate, setDueDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
 
+    // SUB-TASK: 
+    // implement this function send a POST message to the server
+    // to create a new Task based on the values in this component's state
+    // and then 'finally' update 'tasks' with the new value and calls 'setTasks'
     const createTask = () => {
+        const id = getNewTaskId(tasks);
+        const newTask = {
+            text: inputValue,
+            isComplete: false,
+            dueDate,
+            id
+        }
         fetch('http://localhost:3000/tasks/create', {
             method: 'POST',
-            body: JSON.stringify({
-                text: inputValue,
-                isComplete: false,
-                dueDate
-            }),
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            response.json().then(json => {
-                tasks.push({
-                    ...json,
-                    dueDate: new Date(json.dueDate)
-                });
-                setTasks(tasks);
-            })
+            body: JSON.stringify(newTask),
+            headers
+        }).finally(() => {
+            tasks.push(newTask);
+            setTasks(tasks);
         });
     }
 
@@ -68,7 +77,7 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                 <View style={styles.buttonRow} >
                     <View style={styles.buttonText}>
                         <Button
-                            title={<TaskDate dueDate={[dueDate.getMonth(), dueDate.getDate()]} />}
+                            title={<TaskDate dueDate={dueDate} />}
                             onPress={() => setModalVisible(true)}
                         />
                     </View>

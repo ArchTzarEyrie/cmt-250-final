@@ -1,6 +1,21 @@
+/**
+ * TASK X
+ * 
+ * props:
+ *  - dueDate: Date, the date of a Task
+ * 
+ * create and export a component TaskDate that:
+ *  - returns a Text component that displays the month and date of dueDate
+ *  - display the month as a 3 letter abbreviation (Jan, Feb, Mar, etc)
+ */
+
 import { Text } from 'react-native';
 
 const TaskDate = ({ dueDate }) => {
+
+    const month = dueDate.getMonth();
+    const date = dueDate.getDate();
+
     const monthMap = {
         0: 'Jan',
         1: 'Feb',
@@ -17,7 +32,7 @@ const TaskDate = ({ dueDate }) => {
     }
 
     return (
-        <Text>{`${monthMap[dueDate[0]]} ${dueDate[1]}`}</Text>
+        <Text>{`${monthMap[month]} ${date}`}</Text>
     )
 }
 

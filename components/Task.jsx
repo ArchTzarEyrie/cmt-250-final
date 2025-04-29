@@ -12,6 +12,8 @@
  *  - displays a radio button that indicates if the task is complete
  *      - when the radio button is pressed, update the isComplete value for this task in memory and in the server
  *  - displays the passed text component
+ *  - displays the month and date of the Task if showDate is true
+ *  - display a button that, when pressed, deletes this task from memory and the server
  */
 
 import { Text, View, StyleSheet, Button } from 'react-native';
@@ -20,6 +22,7 @@ import { useContext } from 'react';
 import TaskDate from './TaskDate';
 import { SetTasksContext } from '@/data/SetTasksContext';
 import { TasksContext } from '@/data/TasksContext';
+import { headers } from '@/util/utils';
 
 const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
@@ -43,21 +46,17 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                             fetch(`http://localhost:3000/tasks/update/${id}`, {
                                 method: 'POST',
                                 body: JSON.stringify(updatedTask),
-                                headers: {
-                                    'Access-Control-Allow-Origin': '*',
-                                    'Content-Type': 'application/json'
-                                }
-                            }).then(() => {
+                                headers
+                            }).finally(() => {
                                 const index = tasks.findIndex(task => task.id === updatedTask.id);
                                 tasks.splice(index, 1, updatedTask);
                                 setTasks(tasks);
                             });
                         }}
-                        color="#007BFF"
                     />
                     <View style={styles.radioTextContainer}>
                         <Text>{text}</Text>
-                        {showDate && <TaskDate dueDate={[dueDate.getMonth(), dueDate.getDate()]} />}
+                        {showDate && <TaskDate dueDate={dueDate} />}
                     </View>
                     
                 </View>
@@ -67,12 +66,9 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                         onPress={() => {
                             fetch(`http://localhost:3000/tasks/delete/${id}`, {
                                 method: 'DELETE',
-                                headers: {
-                                    'Access-Control-Allow-Origin': '*',
-                                    'Content-Type': 'application/json'
-                                }
+                                headers
                             })
-                            .then(() => {
+                            .finally(() => {
                                 const index = tasks.findIndex(task => task.id === id);
                                 tasks.splice(index, 1);
                                 setTasks(tasks);

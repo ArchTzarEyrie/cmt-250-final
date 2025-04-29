@@ -4,22 +4,17 @@ import { useState, useContext } from 'react';
 import { Icon } from 'react-native-paper';
 import CreateTaskModal from '@/components/CreateTaskModal';
 import { TasksContext } from '@/data/TasksContext';
+import { isSameDate } from '@/util/utils';
 
 const Upcoming = () => {
 
     const tasks = useContext(TasksContext);
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-    
-
-    const isSameDate = (tuple, date) => {
-        return tuple[0] === date.getMonth() && tuple[1] === date.getDate();
-    }
 
     const uniqueDates = [];
     tasks.forEach(task => {
-        const tuple = [task.dueDate.getMonth(), task.dueDate.getDate()];
-        if (uniqueDates.findIndex(date => date[0] === tuple[0] && date[1] === tuple[1]) < 0) {
-            uniqueDates.push(tuple);
+        if (uniqueDates.findIndex(date => isSameDate(date, task.dueDate)) < 0) {
+            uniqueDates.push(task.dueDate);
         }
     });
     const dayContainers = [];
