@@ -3,10 +3,12 @@ import { RadioButton } from 'react-native-paper';
 import { useContext } from 'react';
 import TaskDate from './TaskDate';
 import { DirtyContext } from '@/data/DirtyContext';
+import { TaskContext } from '@/data/TaskContext';
 
 const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
-    const setToDirty = useContext(DirtyContext);
+    const setTasks = useContext(DirtyContext);
+    const tasks = useContext(TaskContext);
 
     return (
         <View style={styles.container}>
@@ -16,19 +18,24 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                         value="isComplete"
                         status={isComplete ? 'checked' : 'unchecked'}
                         onPress={() => {
+                            const updatedTask = {
+                                text,
+                                isComplete: !isComplete,
+                                id,
+                                dueDate
+                            };
                             fetch(`http://localhost:3000/tasks/update/${id}`, {
                                 method: 'POST',
-                                body: JSON.stringify({
-                                    text,
-                                    isComplete: !isComplete,
-                                    id,
-                                    dueDate
-                                }),
+                                body: JSON.stringify(updatedTask),
                                 headers: {
                                     'Access-Control-Allow-Origin': '*',
                                     'Content-Type': 'application/json'
                                 }
-                            }).then(() => setToDirty());
+                            }).then(() => {
+                                const index = tasks.findIndex(task => task.id === updatedTask.id);
+                                tasks.splice(index, 1, updatedTask);
+                                setTasks(tasks);
+                            });
                         }}
                         color="#007BFF"
                     />
@@ -49,7 +56,11 @@ const Task = ({ text, isComplete, id, dueDate, showDate }) => {
                                     'Content-Type': 'application/json'
                                 }
                             })
-                            .then(() => setToDirty());
+                            .then(() => {
+                                const index = tasks.findIndex(task => task.id === id);
+                                tasks.splice(index, 1);
+                                setTasks(tasks);
+                            });
                         }}
                     />
                 </View>
