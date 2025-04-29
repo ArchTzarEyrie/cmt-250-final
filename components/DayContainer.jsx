@@ -2,11 +2,11 @@ import { View, StyleSheet } from 'react-native';
 import Task from './Task';
 import TaskDate from './TaskDate';
 
-const DayContainer = ({ tasks, date, fetchTasks }) => {
+const DayContainer = ({ tasks, date }) => {
     return (
         <View style={styles.container}>
             <TaskDate dueDate={date} />
-            {tasks.map(task => <Task key={task.id} {...task} fetchTasks={fetchTasks} />)}
+            {tasks.map(task => <Task key={task.id} {...task} />)}
         </View>
     );
 }

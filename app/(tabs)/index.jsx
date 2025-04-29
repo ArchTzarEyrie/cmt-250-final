@@ -1,33 +1,16 @@
 import { Text, View, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import DayContainer from '@/components/DayContainer';
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Icon } from 'react-native-paper';
 import CreateTaskModal from '@/components/CreateTaskModal';
 import { en, registerTranslation } from 'react-native-paper-dates';
+import { TaskContext } from '@/data/TaskContext';
 
 const Upcoming = () => {
 
-    const [tasks, setTasks] = useState([]);
+    const tasks = useContext(TaskContext);
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
     registerTranslation('en', en);
-
-    const fetchTasks = () => {
-        fetch('http://localhost:3000/tasks')
-            .then(response => {
-                response.json().then(json => {
-                    setTasks(json.tasks.map(task => {
-                        return {
-                            ...task,
-                            dueDate: new Date(task.dueDate)
-                        }
-                    }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()));
-                });
-            });
-    }
-
-    useEffect(() => {
-        fetchTasks();
-    }, []);
 
     const isSameDate = (tuple, date) => {
         return tuple[0] === date.getMonth() && tuple[1] === date.getDate();
@@ -48,7 +31,6 @@ const Upcoming = () => {
                 tasks={tasks.filter(task => isSameDate(date, task.dueDate))}
                 date={date}
                 key={date}
-                fetchTasks={fetchTasks}
             />
         );
     });
@@ -70,7 +52,6 @@ const Upcoming = () => {
                 <CreateTaskModal 
                     showCreateTaskModal={showCreateTaskModal}
                     setShowCreateTaskModal={setShowCreateTaskModal}
-                    fetchTasks={fetchTasks}
                 />
             </Modal>
             

@@ -1,10 +1,13 @@
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import TaskDate from './TaskDate';
+import { DirtyContext } from '@/data/DirtyContext';
 
-const Task = ({ text, isComplete, id, dueDate, fetchTasks }) => {
+const Task = ({ text, isComplete, id, dueDate, showDate }) => {
 
     const [completeState, setCompleteState] = useState(isComplete);
+    const setToDirty = useContext(DirtyContext);
 
     return (
         <View style={styles.container}>
@@ -31,7 +34,11 @@ const Task = ({ text, isComplete, id, dueDate, fetchTasks }) => {
                         }}
                         color="#007BFF"
                     />
-                    <Text>{text}</Text>
+                    <View style={styles.radioTextContainer}>
+                        <Text>{text}</Text>
+                        {showDate && <TaskDate dueDate={[dueDate.getMonth(), dueDate.getDate()]} />}
+                    </View>
+                    
                 </View>
                 <View>
                     <Button
@@ -44,7 +51,7 @@ const Task = ({ text, isComplete, id, dueDate, fetchTasks }) => {
                                     'Content-Type': 'application/json'
                                 }
                             })
-                            .then(() => fetchTasks());
+                            .then(() => setToDirty());
                         }}
                     />
                 </View>
@@ -85,4 +92,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
     },
+    radioTextContainer: {
+        flexDirection: 'column'
+    }
 });
