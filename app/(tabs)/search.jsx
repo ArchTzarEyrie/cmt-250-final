@@ -10,26 +10,3 @@
  *  - if there are no search results, render a message stating this clearly to the user
  *    do not simply render nothing
  */
-
-import { Text, View, TextInput, StyleSheet } from 'react-native';
-import { useState, useContext } from 'react';
-import Task from '@/components/Task';
-import { TasksContext } from '@/data/TasksContext';
-
-const Search = () => {
-
-    return null;
-}
-
-export default Search;
-
-// You can use this style on a View
-// containing only your text input if you want it to look nicer
-const styles = StyleSheet.create({
-    textInput: {
-        backgroundColor: '#F5F5F5',
-        margin: 20,
-        borderColor: 'black',
-        borderWidth: 2
-    }
-});

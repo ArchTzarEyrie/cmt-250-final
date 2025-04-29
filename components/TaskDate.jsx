@@ -8,11 +8,3 @@
  *  - returns a Text component that displays the month and date of dueDate
  *  - display the month as a 3 letter abbreviation (Jan, Feb, Mar, etc)
  */
-import { Text } from 'react-native';
-
-const TaskDate = ({ dueDate }) => {
-    console.log('Rendered Task Date');
-    return null;
-}
-
-export default TaskDate;

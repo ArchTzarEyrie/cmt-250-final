@@ -11,20 +11,3 @@
  *      - a TaskDate component
  *      - an array of Task components, one for each entry in the 'tasks' prop
  */
-
-import { View, StyleSheet } from 'react-native';
-import Task from './Task';
-import TaskDate from './TaskDate';
-
-const DayContainer = ({ tasks, date }) => {
-    return null;
-}
-
-export default DayContainer;
-
-const styles = StyleSheet.create({
-    container: {
-      marginTop: 10,
-      marginBottom: 10
-    },
-  });
