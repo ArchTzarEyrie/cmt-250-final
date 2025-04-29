@@ -1,32 +1,15 @@
 import { Text, View, TextInput, StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import Task from '@/components/Task';
+import { TaskContext } from '@/data/TaskContext';
 
 const Search = () => {
-    const [tasks, setTasks] = useState([]);
+    const tasks = useContext(TaskContext);
     const [searchTerm, setSearchTerm] = useState('');
-
-    const fetchTasks = () => {
-        fetch('http://localhost:3000/tasks')
-            .then(response => {
-                response.json().then(json => {
-                    setTasks(json.tasks.map(task => {
-                        return {
-                            ...task,
-                            dueDate: new Date(task.dueDate)
-                        }
-                    }).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()));
-                });
-            });
-    }
-
-    useEffect(() => {
-        fetchTasks();
-    }, []);
 
     const searchResults = tasks.filter(task => {
         return task.text.toLowerCase().includes(searchTerm.toLowerCase());
-    }).map(task => <Task {...task} showDate={true} key={task.id} fetchTasks={fetchTasks} />);
+    }).map(task => <Task {...task} showDate={true} key={task.id} />);
 
     const noSearchTerm = (
         <View>

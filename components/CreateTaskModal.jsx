@@ -1,10 +1,12 @@
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { DatePickerModal } from 'react-native-paper-dates';
 import TaskDate from './TaskDate';
+import { DirtyContext } from '@/data/DirtyContext';
 
-const CreateTaskModal = ({ setShowCreateTaskModal, fetchTasks }) => {
-
+const CreateTaskModal = ({ setShowCreateTaskModal }) => {
+    
+    const setToDirty = useContext(DirtyContext);
     const [inputValue, setInputValue] = useState('');
     const [dueDate, setDueDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
@@ -60,7 +62,7 @@ const CreateTaskModal = ({ setShowCreateTaskModal, fetchTasks }) => {
                             onPress={() => {
                                 createTask();
                                 setShowCreateTaskModal(false);
-                                fetchTasks();
+                                setToDirty();
                             }}
                         />
                     </View>

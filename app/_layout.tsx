@@ -27,7 +27,7 @@ export default function RootLayout() {
   }
 
   const [tasks, setTasks] = useState([]);
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState(true);
 
     const fetchTasks = () => {
         fetch('http://localhost:3000/tasks')
