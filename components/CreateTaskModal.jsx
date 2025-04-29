@@ -26,9 +26,7 @@ const CreateTaskModal = ({ setShowCreateTaskModal }) => {
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            console.log(response);
             response.json().then(json => {
-                console.log(json);
                 tasks.push({
                     ...json,
                     dueDate: new Date(json.dueDate)

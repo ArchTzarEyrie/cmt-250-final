@@ -8,12 +8,6 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(clients.claim());
 });
 
-self.addEventListener('message', async (event) => {
-    console.log('Message Received');
-    console.log(event.data);
-    event.source.postMessage('Message from SW to Client');
-});
-
 async function handleFetch(event) {
     const request = event.request;
     const responseFromCache = await caches.match(request);
