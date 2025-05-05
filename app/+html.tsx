@@ -15,6 +15,7 @@ export default function Root({ children }: PropsWithChildren) {
         
         {/* Bootstrap the service worker. */}
         <script dangerouslySetInnerHTML={{ __html: sw }} />
+        <script dangerouslySetInnerHTML={{ __html: listeners }} />
 
         {/* Link the PWA manifest file. */}
         <link rel="manifest" href="/manifest.json" />
@@ -43,4 +44,10 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+`;
+
+const listeners = `
+self.addEventListener('online', () => {
+  navigator.serviceWorker.controller.postMessage('ONLINE');
+});
 `;
