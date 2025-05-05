@@ -34,13 +34,17 @@ export default function RootLayout() {
         fetch('http://localhost:3000/tasks')
             .then(response => {
                 response.json().then(json => {
+                  if (json.failure) {
+                    console.log('[INFO]: Task fetch failed, not updating tasks in memory')
+                  } else {
                     const tasksToSet = json.tasks.map((task: any) => {
-                      return {
-                          ...task,
-                          dueDate: new Date(task.dueDate)
-                      }
-                  }).sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime());
+                        return {
+                            ...task,
+                            dueDate: new Date(task.dueDate)
+                        }
+                    }).sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime());
                     setTasks(tasksToSet);
+                  }
                 });
             });
     }
@@ -54,7 +58,7 @@ export default function RootLayout() {
       <TasksContext.Provider value={tasks}>
         <SetTasksContext.Provider value={(tasks) => {
           const newTasks = new Array(...tasks);
-          newTasks.sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime());
+          newTasks.sort((a: any, b: any) => a.dueDate.getTime() - b.dueDate.getTime())
           setTasks(newTasks);
         }}>
           <Stack>
