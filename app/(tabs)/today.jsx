@@ -19,16 +19,7 @@ const Today = () => {
 
 export default Today;
 
-/**
- * You can add a header to this tab by adding this above your list of tasks:
- 
-<View style={styles.headerContainer}>
-    <Text>Today</Text>
-</View>
-
- */
-
-// styles declared for the header if you decide to use it
+// styles declared for the header if you decide to make one
 const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',

@@ -2,7 +2,8 @@
  * TASK 4
  * 
  * props:
- *  - setShowCreateTaskModal: (boolean) => none, set a boolean as to whether this modal should be shown
+ *  - setShowCreateTaskModal: (boolean) => none, a void function 
+ *          that sets a boolean as to whether this modal should be shown
  * 
  * This file is more complex than the others and uses components
  * from third party libraries. As such, I've left the more complex
